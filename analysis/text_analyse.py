@@ -1,7 +1,7 @@
 import nltk
 from nltk import sent_tokenize
 from fuzzywuzzy import process
-#nltk.download('punkt')
+nltk.download('stopwords')
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize.toktok import ToktokTokenizer
