@@ -38,10 +38,10 @@ def fb_login(driver):
     """
     driver.get('https://www.facebook.com/')
     time.sleep(3)
-    usr = driver.find_element_by_name("email")
+    usr = driver.find_element_by_id("email")
     usr.send_keys(USERNAME)
     time.sleep(1)
-    password = driver.find_element_by_name("pass")
+    password = driver.find_element_by_id("pass")
     password.send_keys(PASSWORD)
     password.send_keys(RETURN_KEY)
     #raw_input(
