@@ -30,14 +30,16 @@ RESPIRATORY_URL = "https://www.facebook.com/search/str/respiratory+infection+in+
 URL_LIST = [FLU_URL, GASTRO_URL, CONJ_URL, RESPIRATORY_URL]
 
 # Chrome driver should be run
-executable_path=os.path.join('chromedriver')
+#executable_path=os.path.join('chromedriver')
 
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
+options.binary_location = google-chrome
 # instantiate a chrome options object so you can set the size and headless preference
 options.add_argument("--headless")
 options.add_argument("--window-size=1920x1080")
-
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
 # 1-Allow, 2-Block, 0-default
 preferences = {
     "profile.default_content_setting_values.notifications" : 2,
@@ -49,8 +51,8 @@ options.add_experimental_option("prefs", preferences)
 
 global browser
 browser = webdriver.Chrome(
-    executable_path=executable_path,
-    chrome_options=options,
+    executable_path='/app/.chromedriver/bin/chromedriver',
+    chrome_options=options
     )
 WAIT_TIME = 5
 
