@@ -34,7 +34,7 @@ URL_LIST = [FLU_URL, GASTRO_URL, CONJ_URL, RESPIRATORY_URL]
 
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors')
-options.binary_location = google-chrome
+options.binary_location = '/app/.apt/usr/bin/google-chrome'
 # instantiate a chrome options object so you can set the size and headless preference
 options.add_argument("--headless")
 options.add_argument("--window-size=1920x1080")
