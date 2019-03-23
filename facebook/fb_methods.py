@@ -37,8 +37,10 @@ def fb_login(driver):
     Login to facebook using username and password.
     """
     driver.get('https://www.facebook.com/')
+    time.sleep(3)
     usr = driver.find_element_by_name("email")
     usr.send_keys(USERNAME)
+    time.sleep(1)
     password = driver.find_element_by_name("pass")
     password.send_keys(PASSWORD)
     password.send_keys(RETURN_KEY)
