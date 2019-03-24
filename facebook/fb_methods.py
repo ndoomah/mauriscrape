@@ -37,13 +37,14 @@ def fb_login(driver):
     Login to facebook using username and password.
     """
     driver.get('https://www.facebook.com/')
-    time.sleep(3)
+    driver.implicitly_wait(5)
+
     usr = driver.find_element_by_id("email")
-    usr.send_keys(USERNAME)
+    usr.send_keys('58071626')
     time.sleep(1)
     password = driver.find_element_by_id("pass")
-    password.send_keys(PASSWORD)
-    password.send_keys(RETURN_KEY)
+    password.send_keys('admin_fyp123')
+    password.send_keys(Keys.RETURN)
     #raw_input(
      #   "Confirm that you authenticated with the right user.\n"
       #  "Check no browser popups are there."
