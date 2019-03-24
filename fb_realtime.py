@@ -51,7 +51,7 @@ options.add_experimental_option("prefs", preferences)
 
 global browser
 browser = webdriver.Chrome(
-    executable_path='/app/.chromedriver/bin/compile',
+    executable_path='/app/.chromedriver/bin/chromedriver',
     chrome_options=options
     )
 WAIT_TIME = 5
