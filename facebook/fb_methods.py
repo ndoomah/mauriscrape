@@ -21,7 +21,33 @@ PASSWORD = 'admin_fyp123'
 global RETURN_KEY
 RETURN_KEY = Keys.RETURN
 
-def close_browser(driver):
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-certificate-errors')
+options.binary_location = '/app/.apt/usr/bin/google-chrome'
+# instantiate a chrome options object so you can set the size and headless preference
+options.add_argument("--headless")
+options.add_argument("--window-size=1920x1080")
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+# 1-Allow, 2-Block, 0-default
+preferences = {
+    "profile.default_content_setting_values.notifications" : 2,
+    "profile.default_content_setting_values.location": 2,
+    # We don't need images, only the URLs.
+    "profile.managed_default_content_settings.images": 2,
+    }
+options.add_experimental_option("prefs", preferences)
+
+global driver
+browser = webdriver.Chrome(
+    executable_path='/app/.chromedriver/bin/chromedriver',
+    chrome_options = options
+    )
+WAIT_TIME = 5
+
+driver.wait = WebDriverWait(driver, WAIT_TIME)
+
+def close_browser():
     """
     Close the browser.
     """
@@ -31,26 +57,25 @@ def close_browser(driver):
         # Might be already closed.
         pass
 
+# Make sure browser is always closed, even on errors.
+atexit.register(close_browser, driver)
 
-def fb_login(driver):
+def fb_login():
     """
     Login to facebook using username and password.
     """
     driver.get('https://www.facebook.com/')
-    driver.implicitly_wait(5)
-
-    usr = driver.find_element_by_id("email")
-    usr.send_keys('58071626')
-    time.sleep(1)
-    password = driver.find_element_by_id("pass")
-    password.send_keys('admin_fyp123')
-    password.send_keys(Keys.RETURN)
+    usr = driver.find_element_by_name("email")
+    usr.send_keys(USERNAME)
+    password = driver.find_element_by_name("pass")
+    password.send_keys(PASSWORD)
+    password.send_keys(RETURN_KEY)
     #raw_input(
      #   "Confirm that you authenticated with the right user.\n"
       #  "Check no browser popups are there."
        # )
 
-def scroll_down(driver):
+def scroll_down():
     """A method for scrolling the page."""
 
     # Get scroll height.
@@ -69,12 +94,12 @@ def scroll_down(driver):
             break
         last_height = new_height
 
-def scroll_to_element(driver, element):
+def scroll_to_element(element):
     driver.execute_script("arguments[0].scrollIntoView(true);", element)
     #driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
 
-def move_to_element(driver, element):
+def move_to_element(element):
     """
     Get element in the current viewport and have to mouse over it.
     """
@@ -82,34 +107,26 @@ def move_to_element(driver, element):
     actions.move_to_element(element)
     actions.perform()
 
-def go_to_page(url, driver):
+def go_to_page(url):
     driver.get(url)
 
 #---LOOPING THROUGH EACH POSTS----
-def postLoop(postDiv, array, driver, searchterm, postLimit=False):
+def postLoop(postDiv, array, searchterm, postLimit=False):
 
     count = 0
     for post in postDiv:
-
-    # scraping the post's title/name
-
         global t, d, c, contents
-        """ --- post's title is not really needed ---
-                title = driver.find_element_by_tag_name('h5')
-                t = title.text
-        """
 
         # ---- GET DATE ---- #
 
-        #for recent posts
+        # for recent posts
         date = post.find_element_by_tag_name("abbr").get_attribute("title")
-        #date = post.find_element_by_class_name("timestampContent")
-        #date = driver.find_element_by_xpath("//span[@class='timestampContent']")
-        #t = date.rsplit('at',1)[0] #to remove time and only store date
+
+        # obtain date in format DD/MM/YYYY
         dt = parse(date)
         d = str(dt.date())
 
-        # post.find_element_by_class_name('_6-co').click()
+        # clicking on the post to obtain full content text
         post.find_element_by_class_name('_4rmu').click()
         time.sleep(4)
 
@@ -125,27 +142,22 @@ def postLoop(postDiv, array, driver, searchterm, postLimit=False):
         if dis == "":
             print("post not valid for storage, discarding...")
         else:
-            #content is valid therefore post will be further analysed for location details if any, and then stored.
-
+            # content is valid therefore post will be further analysed for location details if any, and then stored.
             # if location is already enabled on the post
             try:
-
                 l = post.find_element_by_class_name('_62xw')
                 location = l.text
 
             except:
-
                 # else extract location details from the content
                 loc = text_analyse.extract_location(c, 80)
-
                 if loc == "":
                     location = "Not found"
                 else:
                     location = loc
 
-            #putting all scraped details into json file
+            #putting all scraped details together
             data = {
-
                 'diseasetype': searchterm,
                 'date': d,
                 'location': location,
@@ -201,36 +213,36 @@ def scrape_realtime(url, driver):
 
     return data_arr
 
-def scrape_page(url, driver, diseaseterm, data_arr):
+def scrape_page(url, diseaseterm, data_arr):
 
-    go_to_page(url, driver)
+    go_to_page(url)
     time.sleep(3)
 
     #Looping through the first post/div
     firstdivloop = driver.find_elements_by_xpath("//div[@id='BrowseResultsContainer']/div/div/div/div")
     #firstdivloop = driver.find_elements_by_xpath("//div[@id='BrowseResultsContainer']//div[@class='_6rbb']/div")
-    postLoop(firstdivloop,data_arr,driver, diseaseterm)
+    postLoop(firstdivloop,data_arr, diseaseterm)
 
     try:
         #Looping through the second post/div
         secdivloop = driver.find_elements_by_xpath("//div[@data-testid='paginated_results_pagelet']/div/div/div/div/div/div")
-        postLoop(secdivloop,data_arr,driver, diseaseterm)
+        postLoop(secdivloop,data_arr, diseaseterm)
 
         #scroll to end of results
-        scroll_down(driver)
+        scroll_down()
         time.sleep(3)
 
         #looping through the rest of the posts
         scrollContainers = driver.find_elements_by_xpath("//div[contains (@id, 'fbBrowseScrollingPagerContainer')]")
 
         gototop = driver.find_element_by_xpath("//div[@data-testid='paginated_results_pagelet']/div")
-        scroll_to_element(driver, gototop)
+        scroll_to_element(gototop)
         time.sleep(3)
 
         for scrollContainer in scrollContainers:
             scroll_div = scrollContainer.find_elements_by_class_name("_307z")
             #scroll_div = scrollContainer.find_elements_by_xpath("//div[@class='_o02']")
-            postLoop(scroll_div, data_arr, driver, diseaseterm)
+            postLoop(scroll_div, data_arr, diseaseterm)
             time.sleep(1)
     except:
         print("Only two posts found.")
