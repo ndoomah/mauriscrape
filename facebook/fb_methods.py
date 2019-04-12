@@ -60,7 +60,7 @@ def close_browser():
         pass
 
 # Make sure browser is always closed, even on errors.
-atexit.register(close_browser, driver)
+#atexit.register(close_browser, driver)
 
 def fb_login():
     """
