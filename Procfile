@@ -1,1 +1,1 @@
-worker: python fb_realtime.py
+worker: python fb_scraper.py
