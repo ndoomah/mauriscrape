@@ -4,6 +4,8 @@ import time
 import json
 
 #IMPORTING FILES
+from selenium.webdriver.support.wait import WebDriverWait
+
 from analysis import text_analyse
 
 from selenium import webdriver
@@ -39,13 +41,13 @@ preferences = {
 options.add_experimental_option("prefs", preferences)
 
 global driver
-browser = webdriver.Chrome(
+driver = webdriver.Chrome(
     executable_path='/app/.chromedriver/bin/chromedriver',
     chrome_options = options
     )
-#WAIT_TIME = 5
+WAIT_TIME = 5
 
-#driver.wait = WebDriverWait(driver, WAIT_TIME)
+driver.wait = WebDriverWait(driver, WAIT_TIME)
 
 def close_browser():
     """
