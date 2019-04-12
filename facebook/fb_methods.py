@@ -43,9 +43,9 @@ browser = webdriver.Chrome(
     executable_path='/app/.chromedriver/bin/chromedriver',
     chrome_options = options
     )
-WAIT_TIME = 5
+#WAIT_TIME = 5
 
-driver.wait = WebDriverWait(driver, WAIT_TIME)
+#driver.wait = WebDriverWait(driver, WAIT_TIME)
 
 def close_browser():
     """
