@@ -1,1 +1,1 @@
-worker: python fb_scraper.py
+worker: python search.py
