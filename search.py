@@ -36,7 +36,7 @@ class StdOutListener(StreamListener):
                 if word in status.text.lower():
                     random_text = status.text
                     location_result = text_analysetwitter.extract_location(status.text.lower(), 80)
-                    dis = text_analysetwitter.extract_disease(status.text.lower(), 60)
+                    dis = text_analysetwitter.extract_disease(status.text.lower(), 80)
                     # replacing punctuations with whitespace for location_result and tweet
                     for char in string.punctuation:
                         s = location_result.replace(char, ' ')
@@ -87,7 +87,7 @@ class StdOutListener(StreamListener):
                     print(status.text)
 
                     ######################
-                    dis = text_analysetwitter.extract_disease(status.text.lower(), 60)
+                    dis = text_analysetwitter.extract_disease(status.text.lower(), 80)
                     # print(dis)
                     # replacing punctuations with whitespace for location_result
                     for char in string.punctuation:
