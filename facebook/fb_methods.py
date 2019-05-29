@@ -147,7 +147,8 @@ def postLoop(postDiv, array, searchterm, postLimit=False):
             # content is valid therefore post will be further analysed for location details if any, and then stored.
             # if location is already enabled on the post
             try:
-                l = post.find_element_by_class_name('_62xw')
+                #l = post.find_element_by_class_name('_62xw')
+                l = post.find_element_by_xpath("(//h5//a[@class='profileLink'])[2]")
                 location = l.text
 
             except:
