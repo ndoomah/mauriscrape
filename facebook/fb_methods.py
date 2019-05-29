@@ -179,7 +179,7 @@ def postLoop(postDiv, array, searchterm, postLimit=False):
         except:
             print("Continuing to next post")
         count = count + 1
-        if postLimit == True and count == 2:
+        if postLimit == True and count == 4:
             print("Reached post limit - breaking out of loop")
             break
         else:
@@ -216,38 +216,40 @@ def scrape_realtime(url, driver):
     return data_arr
 
 def scrape_page(url, diseaseterm, data_arr):
-
     go_to_page(url)
     time.sleep(3)
 
-    #Looping through the first post/div
+    # Looping through the first post/div
     firstdivloop = driver.find_elements_by_xpath("//div[@id='BrowseResultsContainer']/div/div/div/div")
-    #firstdivloop = driver.find_elements_by_xpath("//div[@id='BrowseResultsContainer']//div[@class='_6rbb']/div")
-    postLoop(firstdivloop,data_arr, diseaseterm)
+    # firstdivloop = driver.find_elements_by_xpath("//div[@id='BrowseResultsContainer']//div[@class='_6rbb']/div")
+    postLoop(firstdivloop, data_arr, diseaseterm, postLimit=True)
 
-    try:
-        #Looping through the second post/div
-        secdivloop = driver.find_elements_by_xpath("//div[@data-testid='paginated_results_pagelet']/div/div/div/div/div/div")
-        postLoop(secdivloop,data_arr, diseaseterm)
+    # Looping through the second post/div
+    secdivloop = driver.find_elements_by_xpath("//div[@data-testid='paginated_results_pagelet']/div/div/div/div/div/div")
+    postLoop(secdivloop, data_arr, diseaseterm, postLimit=True)
+    time.sleep(1)
 
-        #scroll to end of results
-        scroll_down()
-        time.sleep(3)
 
-        #looping through the rest of the posts
-        scrollContainers = driver.find_elements_by_xpath("//div[contains (@id, 'fbBrowseScrollingPagerContainer')]")
+'''
+    #scroll to end of results
+    scroll_down()
+    time.sleep(3)
 
-        gototop = driver.find_element_by_xpath("//div[@data-testid='paginated_results_pagelet']/div")
-        scroll_to_element(gototop)
-        time.sleep(3)
+    #looping through the rest of the posts
+    scrollContainers = driver.find_elements_by_xpath("//div[contains (@id, 'fbBrowseScrollingPagerContainer')]")
 
-        for scrollContainer in scrollContainers:
-            scroll_div = scrollContainer.find_elements_by_class_name("_307z")
-            #scroll_div = scrollContainer.find_elements_by_xpath("//div[@class='_o02']")
-            postLoop(scroll_div, data_arr, diseaseterm)
-            time.sleep(1)
-    except:
-        print("Only two posts found.")
+    gototop = driver.find_element_by_xpath("//div[@data-testid='paginated_results_pagelet']/div")
+    scroll_to_element(gototop)
+    time.sleep(3)
+
+    for scrollContainer in scrollContainers:
+        scroll_div = scrollContainer.find_elements_by_class_name("_307z")
+        #scroll_div = scrollContainer.find_elements_by_xpath("//div[@class='_o02']")
+        postLoop(scroll_div, data_arr, diseaseterm)
+        time.sleep(1)
+
+    print("Only two posts found.")
+'''
 
 # ----------------END OF FUNCTIONS DEFINITION------------------#
 #--------------------------------------------------------------#

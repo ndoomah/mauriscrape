@@ -49,10 +49,10 @@ def extract_posts():
     fb_login()
 
     # STEP 3 >> SEARCH FOR FLU, GASTRO, CONJUNCTIVITIS & RESPIRATORY INFECTION DISEASE POSTS
-    scrape_page(FLU_2019_URL, "influenza", data_arr)
-    scrape_page(GASTRO_2019_URL, "gastroenteritis", data_arr)
-    scrape_page(PINKEYE_2019_URL, "conjunctivitis", data_arr)
-    scrape_page(RESPIRATORY_2019_URL, "respiratory infection", data_arr)
+    scrape_page(FLU_ALL, "influenza", data_arr)
+    scrape_page(GASTRO_ALL, "gastroenteritis", data_arr)
+    scrape_page(CONJ_ALL, "conjunctivitis", data_arr)
+    scrape_page(RESP_ALL, "respiratory infection", data_arr)
 
     # STEP 4 >> SAVE DATA ARRAY TO MONGODB CLOUD
     try:
