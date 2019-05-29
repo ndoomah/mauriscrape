@@ -34,6 +34,7 @@ lxml==4.2.5
 MarkupSafe==1.1.0
 monotonic==1.5
 munch==2.3.2
+newspaper3k==0.2.8
 nltk==3.3
 numpy==1.16.0
 oauthlib==2.1.0

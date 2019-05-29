@@ -1,0 +1,20 @@
+{
+    "medisys": {
+      "rss": "http://medisys.newsbrief.eu/rss?type=country&country=Mauritius&language=en,fr&category=MedicalAlertPrivateAll&duplicates=false",
+      "link": "http://medisys.newsbrief.eu/medisys/countryedition/en/MU.html#"
+  },
+  "ionnews": {
+    "link": "http://www.ionnews.mu"
+  },
+  "l'express": {
+    "link": "https://www.lexpress.mu/"
+  },
+  "defisante - defimedia": {
+    "link": "https://defisante.defimedia.info/"
+  },
+  "le mauricien": {
+    "link": "https://www.lemauricien.com"
+  }
+
+
+}
