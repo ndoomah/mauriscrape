@@ -35,6 +35,18 @@ def save_trends(json_array):
     finally:
         client.close()
 
+def save_tweet(data):
+    client = pymongo.MongoClient(DB_URI)
+    db = client.test
+    collection = db.twitter
+    try:
+        collection.update(data, data, upsert=True)
+    except:
+        print("failed to insert data to db")
+    finally:
+        client.close()
+
+
 def retrieve_all():
     client = pymongo.MongoClient(DB_URI)
     db = client.test

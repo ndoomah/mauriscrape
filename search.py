@@ -4,7 +4,7 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 from geopy.geocoders import Nominatim
-from analysis import text_analyse
+from analysis import text_analysetwitter
 import string
 geolocator = Nominatim(user_agent="my-application")
 from mongodb_atlas import connect_db
@@ -35,8 +35,8 @@ class StdOutListener(StreamListener):
               for word in keyword: #search for word in keyword
                 if word in status.text.lower():
                     random_text = status.text
-                    location_result = text_analyse.extract_location(status.text.lower(), 80)
-                    dis = text_analyse.extract_disease(status.text.lower(), 60)
+                    location_result = text_analysetwitter.extract_location(status.text.lower(), 80)
+                    dis = text_analysetwitter.extract_disease(status.text.lower(), 60)
                     # replacing punctuations with whitespace for location_result and tweet
                     for char in string.punctuation:
                         s = location_result.replace(char, ' ')
@@ -87,7 +87,7 @@ class StdOutListener(StreamListener):
                     print(status.text)
 
                     ######################
-                    dis = text_analyse.extract_disease(status.text.lower(), 60)
+                    dis = text_analysetwitter.extract_disease(status.text.lower(), 60)
                     # print(dis)
                     # replacing punctuations with whitespace for location_result
                     for char in string.punctuation:
