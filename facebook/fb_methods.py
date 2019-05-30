@@ -19,7 +19,7 @@ from dateutil.parser import parse
 
 global USERNAME, PASSWORD
 USERNAME = '58071626'
-PASSWORD = 'admin_fyp123'
+PASSWORD = 'maurihealth_12'
 global RETURN_KEY
 RETURN_KEY = Keys.RETURN
 
